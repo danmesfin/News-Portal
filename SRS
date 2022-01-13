@@ -1,0 +1,25 @@
+Introduction
+
+ This days Technology has brought the world nearer than ever. While sitting on one place it is very possible to know what is actually happening at the other end.
+ When we came to News, it is the most direct way in which people get informed about anything. The traditional way of broadcast has lost its famous after the invention of the internet. As of January 2021, there were 4.66 billion active internet users worldwide - 59.5 percent of the global population. Of this total, 92.6 percent (4.32 billion) accessed the internet via mobile devices. This data shows there can be a great number of potential subscribers for an online news service.
+Technology to be used PHP, MYSQL, Bootstrap4. [Or NODE.JS]
+Product perspective
+ The portal Is a web app that can be accessed through browser. 
+ User can access news portal through web browser from any device. Can register and subscribe or visit as a guest. 
+
+
+Specific Requirement
+
+ Functional Requirement 
+ User can
+  Open News, Browse Categories, Comment, Share news to social platforms. 
+Admin Panel
+  Create Post, edit post, delete post, Add Admin, Remove Admin, Delete comment. 
+Database Requirement 
+  Posts: will hold all the news posted on the portal
+  Admins: all admins including their role. Main admin or Moderator.
+  Category: holds all news categories.
+  User: holds all registered users.
+  Contact: contact message and address.
+  Comment: all comments on comment section. Post Id and User id and time. 
+
