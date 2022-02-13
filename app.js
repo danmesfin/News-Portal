@@ -4,13 +4,13 @@ var session = require('express-session');
 const expresslayouts = require("express-ejs-layouts")
 const req = require("express/lib/request")
 const res = require("express/lib/response")
-const app =express()
+const app = express()
 const multer = require('multer')
 var bodyParser = require('body-parser');
 var path = require('path');
 const { title } = require("process");
 const port = 3000
-var con =require('./njdb/db/connector');
+var con = require('./njdb/db/connector');
 const truncate = require('truncate');
 // the indexController
 const indexController = require('./controllers/index');
@@ -33,10 +33,10 @@ app.use('/img', express.static(__dirname + 'public/img'))
 
 // set views
 app.set('views', './views')
-app.set('view engine','ejs')
-app.set('layout','./layout/main')
+app.set('view engine', 'ejs')
+app.set('layout', './layout/main')
 
-app.use(bodyParser.urlencoded({extended : true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 
@@ -44,18 +44,18 @@ app.use(bodyParser.json());
 app.use('/', router) // index router {index, login, register pages}
 
 
-app.post('/auth', function(request, response) {
+app.post('/auth', function (request, response) {
 	var username = request.body.username;
 	var password = request.body.password;
 	if (username && password) {
-		con.query('SELECT * FROM accounts WHERE username = ? AND password = ?', [username, password], function(error, results, fields) {
+		con.query('SELECT * FROM accounts WHERE username = ? AND password = ?', [username, password], function (error, results, fields) {
 			if (results.length > 0) {
 				request.session.loggedin = true;
 				request.session.username = username;
 				response.redirect('/home');
 			} else {
 				response.send('Incorrect Username and/or Password!');
-			}			
+			}
 			response.end();
 		});
 	} else {
@@ -65,75 +65,77 @@ app.post('/auth', function(request, response) {
 });
 //! Use of Multer
 var storage = multer.diskStorage({
-    destination: (req, file, callBack) => {
-        callBack(null, './public/img/')     // './public/images/' directory name where save the file
-    },
-    filename: (req, file, callBack) => {
-        callBack(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
-            console.log(file);
+	destination: (req, file, callBack) => {
+		callBack(null, './public/img/')     // './public/images/' directory name where save the file
+	},
+	filename: (req, file, callBack) => {
+		callBack(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
+		console.log(file);
 	}
 })
- 
+
 var upload = multer({
-    storage: storage
+	storage: storage
 });
 
-app.post('/createpost', upload.single('image'),function(request, response) {
+app.post('/createpost', upload.single('image'), function (request, response) {
 	if (!request.file) {
-        console.log("No file upload");
-    } else {
-	var contents = request.body.content;
-	var title = request.body.title;
-	var authorid = request.body.author;
-	var topicid = request.body.topicid;
-	var imgsrc = 'http://127.0.0.1:3000/img/' + request.file.filename;
-    console.log('vlaues:',topicid, title,authorid,contents);
-	
-	if (contents) {
-		response.send('content here !');
-		// Creating queries
-		con.query('INSERT INTO post (topicid,title,content,author,file_src) VALUES (?,?,?,?,?)', [topicid,title,contents,authorid,[imgsrc]], (err, rows) => {
-			if (err) throw err;
-			console.log("Row inserted with id = "
-				+ rows.insertId);
-		});
+		console.log("No file upload");
 	} else {
-		response.send('Please enter Username and Password!');
-		response.end();
-	} }
+		var contents = request.body.content;
+		var title = request.body.title;
+		var authorid = request.body.author;
+		var topicid = request.body.topicid;
+		var imgsrc = 'http://127.0.0.1:3000/img/' + request.file.filename;
+		console.log('vlaues:', topicid, title, authorid, contents);
+
+		if (contents) {
+			response.send('content here !');
+			// Creating queries
+			con.query('INSERT INTO post (topicid,title,content,author,file_src) VALUES (?,?,?,?,?)', [topicid, title, contents, authorid, [imgsrc]], (err, rows) => {
+				if (err) throw err;
+				console.log("Row inserted with id = "
+					+ rows.insertId);
+			});
+		} else {
+			response.send('Please enter Username and Password!');
+			response.end();
+		}
+	}
 });
-app.post('/update/:id', upload.single('image'),function(request, response) {
+app.post('/update/:id', upload.single('image'), function (request, response) {
 	if (!request.file) {
-        console.log("No file upload");
-    } else {
-	var contents = request.body.content;
-	var title = request.body.title;
-	var authorid = request.body.author;
-	var topicid = request.body.topicid;
-	var imgsrc = 'http://127.0.0.1:3000/img/' + request.file.filename;
-    console.log('vlaues:',topicid, title,authorid,contents);
-	
-	if (contents) {
-		response.send('content here !');
-		// Creating queries
-		con.query('UPDATE post SET topicid = ?,title = ?,content = ?,author = ?,file_src = ? WHERE POSTID = ?', [topicid,title,contents,authorid,[imgsrc],request.params.id], (err, rows) => {
-			if (err) throw err;
-			console.log("Row inserted with id = "
-				+ rows.insertId);
-		});
+		console.log("No file upload");
 	} else {
-		response.send('Please enter Username and Password!');
-		response.end();
-	} }
+		var contents = request.body.content;
+		var title = request.body.title;
+		var authorid = request.body.author;
+		var topicid = request.body.topicid;
+		var imgsrc = 'http://127.0.0.1:3000/img/' + request.file.filename;
+		console.log('vlaues:', topicid, title, authorid, contents);
+
+		if (contents) {
+			response.send('content here !');
+			// Creating queries
+			con.query('UPDATE post SET topicid = ?,title = ?,content = ?,author = ?,file_src = ? WHERE POSTID = ?', [topicid, title, contents, authorid, [imgsrc], request.params.id], (err, rows) => {
+				if (err) throw err;
+				console.log("Row inserted with id = "
+					+ rows.insertId);
+			});
+		} else {
+			response.send('Please enter Username and Password!');
+			response.end();
+		}
+	}
 });
 
 
 
 //home request
-app.get('/home', function(request, response) {
+app.get('/home', function (request, response) {
 	if (request.session.loggedin) {
-    response.redirect('/h');
-	//	response.send('Welcome back, ' + request.session.username + '!');
+		response.redirect('/h');
+		//	response.send('Welcome back, ' + request.session.username + '!');
 	} else {
 		response.send('Please login to view this page!');
 	}
@@ -141,42 +143,42 @@ app.get('/home', function(request, response) {
 });
 
 
-app.get('', (req,res) => {
- 
-  con.query(
-	'SELECT * FROM post',
-	(error, results) => {
-		res.render('index', {post: results});
-		//res.render('./admin/adminland', {post: results});
-	}
-);
-});
-
-app.get('/about', (req,res) => {
-    res.render('about',{layout:'./layout/main'})
-  
-  });
-  app.get('/login', (req,res) => {
-    res.render('./admin/login',{layout:'./layout/admin'})
-  
-  });
-  app.get('/h', (req,res) => {
-    res.render('index')
-  
-  });
-  // admin fetch all posts
-  app.get('/admin', (req,res) => {
+app.get('', (req, res) => {
 
 	con.query(
-        'SELECT * FROM post',
-        (error, results) => {
-            res.render('./admin/adminland', {post: results, layout:'./layout/dashboard'});
-			
-        }
-    );
+		'SELECT * FROM post',
+		(error, results) => {
+			res.render('index', { post: results });
+			//res.render('./admin/adminland', {post: results});
+		}
+	);
+});
 
-  }) ;
- 
+app.get('/about', (req, res) => {
+	res.render('about', { layout: './layout/main' })
+
+});
+app.get('/login', (req, res) => {
+	res.render('./admin/login', { layout: './layout/admin' })
+
+});
+app.get('/h', (req, res) => {
+	res.render('index')
+
+});
+// admin fetch all posts
+app.get('/admin', (req, res) => {
+
+	con.query(
+		'SELECT * FROM post',
+		(error, results) => {
+			res.render('./admin/adminland', { post: results, layout: './layout/dashboard' });
+
+		}
+	);
+
+});
+
 /*admin edit post
 app.get('/edit/:id', (req,res) => {
 	
@@ -193,8 +195,8 @@ app.get('/edit/:id', (req,res) => {
   */
 
 // admin delete post
-app.get('/delete/:id', (req,res) => {
-	if (1==1) {
+app.get('/delete/:id', (req, res) => {
+	if (1 == 1) {
 		con.query(
 			'DELETE FROM post WHERE postid = ?',
 			[req.params.id],
@@ -205,16 +207,70 @@ app.get('/delete/:id', (req,res) => {
 	} else {
 		res.send('something went wrong !');
 	}
-	
-  }) ;
 
-  //admin create new post
-  app.get('/newpost', (req,res) => {
-    res.render('./admin/post/createpost',{layout:'./layout/dashboard'})
-  
-  });
- 
- 
+});
+
+//admin create new post
+app.get('/newpost', (req, res) => {
+	res.render('./admin/post/createpost', { layout: './layout/dashboard' })
+
+});
+app.get('/Topics', (req, res) => {
+
+	con.query(
+		'SELECT * FROM Topic',
+		(error, results) => {
+			res.render('./admin/Topics/topics', { topic: results, layout: './layout/dashboard' });
+
+		}
+	);
+});
+//create Topic
+app.post('/createtopic', (req, res) => {
+
+	var newTopic = req.body.topicName;
+	// Creating queries
+	con.query(
+		'INSERT INTO topic (topicName) VALUES (?)', newTopic, (err, rows) => {
+			if (err) throw err;
+			console.log("Row inserted with id = "
+				+ rows.insertId);
+
+			res.redirect('/topics');
+		});
+
+
+});
+// delete topic
+app.get('/deleteTopic/:id', (req, res) => {
+
+	con.query(
+		'DELETE FROM topic WHERE topicID = ?',
+		[req.params.id],
+		(error, results) => {
+			res.redirect('/topics');
+		}
+	);
+
+
+});
+
+// edit topic
+app.post('/edittopic', (req, res) => {
+
+	var newTopic = req.body.topicName;
+	// Creating queries
+	con.query(
+		'INSERT INTO topic (topicName) VALUES (?)', newTopic, (err, rows) => {
+			if (err) throw err;
+			console.log("Row inserted with id = "
+				+ rows.insertId);
+
+			res.redirect('/topics');
+		});
+
+
+});
 
 //listsen on port 3000
-app.listen(port, () => console.info(`Listening on port ${port}` ));
+app.listen(port, () => console.info(`Listening on port ${port}`));
