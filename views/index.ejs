@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container-fluid py-3">
+        <div class="row  ">
+            <div class="col-md-6 py-3">
+              <div class="card" style="width:100%">
+                  <img class="card-img-top" src=" <%= post[0].file_src %>" alt="Card image">
+                  <div class="card-img-overlay">
+                    <h4 class="card-title"><%= post[0].title %></h4>
+                    <p class="card-text"><%= post[0].content %></p>
+                    <a href="#" class="btn btn-primary">Read article</a>
+                  </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+              
+                  <div class="row ">
+                    <% post.slice().forEach((post) => { %>
+                        <!-- <%= post.id %> -->
+                      <div class="col-sm-6 py-3">
+                          <div class="card" style="width:100%">
+                              <img class="card-img-top" src="<%= post.file_src %>" alt="Card image">
+                              <div class="card-img-overlay">
+                                <h4 class="card-title"> <%= post.title %></h4>
+                                <p class="card-text"> <%= post.content %></p>
+                                <a href="#" class="btn btn-secondary">Read more</a>
+                              </div>
+                            </div>
+                      </div> 
+                    <% }); %>
+
+                <div class="row ">
+                    <div class="col-sm-6 py-3">
+                      <div class="card" style="width:100%">
+                          <img class="card-img-top" src="img_2.jpg" alt="Card image">
+                          <div class="card-img-overlay">
+                            <h4 class="card-title">John Doe</h4>
+                            <p class="card-text">Some example text.</p>
+                            <a href="#" class="btn btn-secondary">See Profile</a>
+                          </div>
+                        </div>
+                  </div>
+                   <div class="col-sm-6 py-3">
+                    <div class="card" style="width:100%">
+                        <img class="card-img-top" src="img_2.jpg" alt="Card image">
+                        <div class="card-img-overlay">
+                          <h4 class="card-title">John Doe</h4>
+                          <p class="card-text">Some example text.</p>
+                          <a href="#" class="btn btn-secondary">See Profile</a>
+                        </div>
+                      </div>
+                   </div>
+                </div>  
+              </div>
+          </div>
+
+    
+</body>
+</html>
