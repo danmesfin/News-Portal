@@ -1,0 +1,48 @@
+
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap py-3">
+    
+    </div>
+    
+    <div class="container" style="width: 800px;">
+    
+            <form action="/updatePost-<%= post.POSTID %>" method="post"  enctype="multipart/form-data">
+                <div class="row py-1">
+                    <label><b>Admin id</b></label>
+                    <input type="text/number" name="author" value="<%= post.author %>" class="text-input">
+                </div>
+                <div class="row py-1">
+                    <label><b>Title</b></label>
+                    <input type="text" name="title" value="<%= post.title %>" class="text-input">
+                </div>
+                <div class="row py-1">
+                    <label><b>Topic</b></label>
+                    <select name="topicid" class="text-input">
+                        <option value="<%= post.topicid %>"></option>
+                                <option selected value="1">Sport</option>
+                                <option value="2">Politics</option>
+                    </select>
+                </div>
+                <div class="row py-1">
+                    <label><b>Image</b></label>
+                    <input type="file" name="image"  accept='image/*'>
+                </div>
+                 <div class="row">
+                    <label class="py-1"><b>Body</b></label>
+                    <textarea name="content" id="editor" value="<%= post.content %>"></textarea>
+                </div>
+                    <p><input type="submit" value="Submit"></p>
+            </form>
+    </div>
+    
+    <script>
+            ClassicEditor
+                .create( document.querySelector( '#editor' ) )
+                .catch( error => {
+                    console.error( error );
+                } );
+        </script>
+    
+    
+       
+    </main>

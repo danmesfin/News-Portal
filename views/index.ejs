@@ -7,59 +7,78 @@
     <title>Document</title>
 </head>
 <body>
-    <div class="container-fluid py-3">
+    <div class="container-fluid py-3 px-5">
         <div class="row  ">
             <div class="col-md-6 py-3">
               <div class="card" style="width:100%">
                   <img class="card-img-top" src=" <%= post[0].file_src %>" alt="Card image">
                   <div class="card-img-overlay">
-                    <h4 class="card-title"><%= post[0].title %></h4>
-                    <p class="card-text"><%= post[0].content %></p>
-                    <a href="#" class="btn btn-primary">Read article</a>
+                    <h4 class="card-title text-light"><%= post[0].title %></h4>
+                    
+                    <a href="/read-<%= post[0].POSTID %>&<%= post[0].topicid %>" class="btn btn-primary">Read article</a>
                   </div>
                 </div>
             </div>
             <div class="col-md-6">
               
-                  <div class="row ">
-                    <% post.slice().forEach((post) => { %>
-                        <!-- <%= post.id %> -->
-                      <div class="col-sm-6 py-3">
-                          <div class="card" style="width:100%">
-                              <img class="card-img-top" src="<%= post.file_src %>" alt="Card image">
-                              <div class="card-img-overlay">
-                                <h4 class="card-title"> <%= post.title %></h4>
-                                <p class="card-text"> <%= post.content %></p>
-                                <a href="#" class="btn btn-secondary">Read more</a>
-                              </div>
-                            </div>
-                      </div> 
-                    <% }); %>
-
-                <div class="row ">
-                    <div class="col-sm-6 py-3">
+              <div class="row py-1 ">
+                <div class="py-1"><h4> | RECENT</h4></div>
+                <% for (var i =0; i <=2;  i++ ) { %>
+                    <!-- <%= post.id %> -->
+                  <div class="col-sm-6 py-3">
                       <div class="card" style="width:100%">
-                          <img class="card-img-top" src="img_2.jpg" alt="Card image">
+                          <img class="card-img-top" src="<%= post[i].file_src %>" alt="Card image">
                           <div class="card-img-overlay">
-                            <h4 class="card-title">John Doe</h4>
-                            <p class="card-text">Some example text.</p>
-                            <a href="#" class="btn btn-secondary">See Profile</a>
+                            <h4 class="card-title text-light"> <%= post[i].title %></h4>
+                            
+                            <a href="/read-<%= post[i].POSTID %>&<%= post[i].topicid %>" class="btn btn-secondary">Read more</a>
                           </div>
                         </div>
-                  </div>
-                   <div class="col-sm-6 py-3">
+                  </div> 
+                  <% } %>
+          </div>
+        
+          </div>
+        </div>        
+            <div class="row py-1 ">
+              <div class="py-1"><h4> | BUISENESS</h4></div>
+              <% for (var i =0; i <=2;  i++ ) { %>
+                  <!-- <%= post.id %> -->
+               
+                  <% if( post[i].topicid==1  ){ %>
+                <div class="col-sm-4 py-3">
                     <div class="card" style="width:100%">
-                        <img class="card-img-top" src="img_2.jpg" alt="Card image">
+                        <img class="card-img-top" src="<%= post[i].file_src %>" alt="Card image">
                         <div class="card-img-overlay">
-                          <h4 class="card-title">John Doe</h4>
-                          <p class="card-text">Some example text.</p>
-                          <a href="#" class="btn btn-secondary">See Profile</a>
+                          <h4 class="card-title text-light"> <%= post[i].title %></h4>
+                         
+                          <a href="/read-<%= post[i].POSTID %>&<%= post.topicid %>" class="btn btn-secondary">Read more</a>
                         </div>
                       </div>
-                   </div>
-                </div>  
-              </div>
-          </div>
+                </div> <% } %>
+                <% } %>
+        </div>
+        <div class="row py-1 ">
+          <div class="py-1"><h4> | SPORT</h4></div>
+          <% for (var i =0; i <=2;  i++ ) { %>
+              <!-- <%= post.id %> -->
+           
+              <% if( post[i].topicid==2  ){ %>
+            <div class="col-sm-4 py-3">
+                <div class="card" style="width:100%">
+                    <img class="card-img-top" src="<%= post[i].file_src %>" alt="Card image">
+                    <div class="card-img-overlay">
+                      <h4 class="card-title text-light"> <%= post[i].title %></h4>
+                      
+                      <a href="/read-<%= post[i].POSTID %>&<%= post.topicid %>" class="btn btn-secondary">Read more</a>
+                    </div>
+                  </div>
+            </div> <% } %>
+            <% } %>
+    </div>
+  
+      
+    </div>
 
     
 </body>

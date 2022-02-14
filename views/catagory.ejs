@@ -1,0 +1,54 @@
+<div class="row  py-5">
+    <div class="col-md-8">
+      <div class="row  py-3 px-4">
+        <div class="py-1"><h4> | >></h4></div>
+        <% post.slice().forEach((post) => { %>
+        <div class="col-sm-4">
+          <div class="col">
+            <div class="card h-100">
+              <img src="<%= post.file_src %>" class="card-img-top" alt="...">
+              <div class="card-body">
+                <h5 class="card-title"><%= post.title %></h5>
+                <p class="card-text"><%= post.content %></p>
+              </div>
+              <div class="card-footer">
+                <small class="text-muted">Last updated 3 mins ago</small>
+              </div>
+            </div>
+          </div>
+        </div>
+        <% }); %>
+       
+        
+
+      </div>
+      <div class="row  py-3">
+        <div class="py-1"><h4> | You may also like ?</h4></div>
+       
+        <div class="row  py-3 px-4">
+          <div class="py-1"><h4> | >></h4></div>
+          <% post.slice().forEach((post) => { %>
+          <div class="col-sm-4">
+            <div class="col">
+              <div class="card h-100">
+                <img src="<%= post.file_src %>" class="card-img-top" alt="...">
+                <div class="card-body">
+                  <h5 class="card-title"><%= post.title %></h5>
+                  
+                </div>
+                <div class="card-footer">
+                  <small class="text-muted">Last updated 3 mins ago</small>
+                </div>
+              </div>
+            </div>
+          </div>
+          <% }); %></div>
+      
+      
+      </div>
+      </div>
+    
+    <div class="col-sm-4 bg-light px-2 border-secondary">
+     Add board
+    </div>
+    </div>
