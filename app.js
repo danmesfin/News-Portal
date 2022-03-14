@@ -103,32 +103,6 @@ app.post('/createpost', upload.single('image'), function (request, response) {
 		}
 	}
 });
-app.post('/update/:id', upload.single('image'), function (request, response) {
-	if (!request.file) {
-		console.log("No file upload");
-	} else {
-		var contents = request.body.content;
-		var title = request.body.title;
-		var authorid = request.body.author;
-		var topicid = request.body.topicid;
-		var imgsrc = 'http://127.0.0.1:3000/img/' + request.file.filename;
-		console.log('vlaues:', topicid, title, authorid, contents);
-
-		if (contents) {
-			response.send('content here !');
-			// Creating queries
-			con.query('UPDATE post SET topicid = ?,title = ?,content = ?,author = ?,file_src = ? WHERE POSTID = ?', [topicid, title, contents, authorid, [imgsrc], request.params.id], (err, rows) => {
-				if (err) throw err;
-				console.log("Row inserted with id = "
-					+ rows.insertId);
-			});
-		} else {
-			response.send('Please enter Username and Password!');
-			response.end();
-		}
-	}
-});
-
 
 
 //home request
@@ -159,7 +133,11 @@ app.get('/about', (req, res) => {
 
 });
 app.get('/login', (req, res) => {
-	res.render('./admin/login', { layout: './layout/admin' })
+	res.render('./login', { layout: './layout/admin' })
+
+});
+app.get('/register', (req, res) => {
+	res.render('./register', { layout: './layout/main' })
 
 });
 app.get('/h', (req, res) => {
@@ -168,31 +146,22 @@ app.get('/h', (req, res) => {
 });
 // admin fetch all posts
 app.get('/admin', (req, res) => {
-
+	var queryItems = ["", ""]
 	con.query(
-		'SELECT * FROM post',
+		'SELECT * FROM post ; SELECT * FROM post where topicid=?', [1],
 		(error, results) => {
-			res.render('./admin/adminland', { post: results, layout: './layout/dashboard' });
+			console.log(results[0]);
+			console.log(results[1]);
+			res.render('./admin/adminland', { post: results[0], layout: './layout/dashboard' });
 
 		}
+
 	);
+
 
 });
 
-/*admin edit post
-app.get('/edit/:id', (req,res) => {
-	
-	con.query(
-		'SELECT * FROM post WHERE postid = ?',
-		[req.params.id],
-		(error, results) => {
-			res.render('admin/post/editpost', {post: results[0], verified: req.session.loggedin});
-		}
-	);
 
-	
-  }) ;
-  */
 
 // admin delete post
 app.get('/delete/:id', (req, res) => {
@@ -215,15 +184,9 @@ app.get('/newpost', (req, res) => {
 	res.render('./admin/post/createpost', { layout: './layout/dashboard' })
 
 });
-app.get('/Topics', (req, res) => {
+app.get('/editT-1', (req, res) => {
+	res.render('./admin/Topics/editTopic', { layout: './layout/dashboard' })
 
-	con.query(
-		'SELECT * FROM Topic',
-		(error, results) => {
-			res.render('./admin/Topics/topics', { topic: results, layout: './layout/dashboard' });
-
-		}
-	);
 });
 //create Topic
 app.post('/createtopic', (req, res) => {
@@ -236,7 +199,7 @@ app.post('/createtopic', (req, res) => {
 			console.log("Row inserted with id = "
 				+ rows.insertId);
 
-			res.redirect('/topics');
+			res.redirect('/Managetopics');
 		});
 
 
@@ -248,29 +211,29 @@ app.get('/deleteTopic/:id', (req, res) => {
 		'DELETE FROM topic WHERE topicID = ?',
 		[req.params.id],
 		(error, results) => {
-			res.redirect('/topics');
+			res.redirect('/Managetopics');
 		}
 	);
 
 
 });
 
-// edit topic
-app.post('/edittopic', (req, res) => {
+// admin delete post
+app.get('/read-:id&:topic', (req, res) => {
 
-	var newTopic = req.body.topicName;
-	// Creating queries
 	con.query(
-		'INSERT INTO topic (topicName) VALUES (?)', newTopic, (err, rows) => {
-			if (err) throw err;
-			console.log("Row inserted with id = "
-				+ rows.insertId);
-
-			res.redirect('/topics');
-		});
+		'select * FROM post WHERE post.POSTID=?; SELECT * FROM post  where post.topicid=?',
+		[req.params.id, req.params.topic],
+		(error, results) => {
+			res.render('./singlePost', { post: results[0], related: results[1], layout: './layout/main' });
+			console.log(results[0]);
+			console.log(results[1]);
+		}
+	);
 
 
 });
+
 
 //listsen on port 3000
 app.listen(port, () => console.info(`Listening on port ${port}`));
