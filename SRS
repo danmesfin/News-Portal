@@ -2,7 +2,7 @@ Introduction
 
  This days Technology has brought the world nearer than ever. While sitting on one place it is possible to know what is actually happening at the other end.
  When we came to News, it is the most direct way in which people get informed about anything. The traditional way of broadcast has lost its famous after the invention of the internet. As of January 2021, there were 4.66 billion active internet users worldwide - 59.5 percent of the global population. Of this total, 92.6 percent (4.32 billion) accessed the internet via mobile devices. This data shows there can be a great number of potential subscribers for an online news service.
-Technology to be used PHP, MYSQL, Bootstrap4. [Or NODE.JS]
+Technology to be used  NODE.JS, MYSQL Database and Bootstrap4.
 Product perspective
  The portal Is a web app that can be accessed through browser. 
  User can access news portal through web browser from any device. Can register and subscribe or visit as a guest. 
